@@ -1,0 +1,28 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+# rspec failure tracking
+.rspec_status
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+.log
+*.log
+*.lock
+!Gemfile.lock
+*.out
+
+.byebug_history
+.vscode/*
+.idea
+.DS_Store
+coverage

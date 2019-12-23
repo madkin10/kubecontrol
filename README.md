@@ -20,7 +20,25 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
+
+# all pods for namespace
+pods = kubectl_client.pods
+
+# find pod by name regex
+pod = kubectl_client.find_pod_by_name /foo-api-.*/
+
+# access pod information
+pod.name
+pod.ready
+pod.status
+pod.restarts
+pod.age
+```
 
 ## Development
 

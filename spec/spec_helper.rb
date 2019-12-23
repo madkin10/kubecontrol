@@ -1,6 +1,9 @@
 require 'bundler/setup'
 require 'rspec'
 require 'kubecontrol'
+require 'simplecov'
+
+SimpleCov.start unless SimpleCov.running
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

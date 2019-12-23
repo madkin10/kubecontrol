@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Simple ruby wrapper for `kubectl` commands'
   spec.homepage      = 'https://github.com/madkin10/kubecontrol'
+  spec.license       = 'MIT'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/madkin10/kubecontrol'

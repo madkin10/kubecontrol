@@ -21,5 +21,10 @@ module Kubecontrol
     def running?
       @status == RUNNING
     end
+
+    def exec(command)
+      stdout_data, stderr_data, exit_code = @client.kubectl_command("exec -i #{name} -- sh -c \"#{command.gsub('"', '\"')}\"")
+      [stdout_data, stderr_data, exit_code]
+    end
   end
 end

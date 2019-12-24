@@ -38,6 +38,10 @@ pod.ready
 pod.status
 pod.restarts
 pod.age
+pod.namespace
+
+#exec commands on a pod
+std_out, std_err, exit_code = pod.exec('ls')
 ```
 
 ## Development

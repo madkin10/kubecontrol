@@ -6,9 +6,11 @@ RSpec.describe Kubecontrol::Pod do
   let(:pod_status) { 'Running' }
   let(:pod_restarts) { '0' }
   let(:pod_age) { '20d' }
+  let(:namespace) { 'default' }
+  let(:client) { Kubecontrol::Client.new }
 
   describe '#initialize' do
-    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age) }
+    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age, namespace: namespace, client: client) }
 
     it 'sets the pod name field' do
       expect(subject.name).to eq pod_name
@@ -28,6 +30,14 @@ RSpec.describe Kubecontrol::Pod do
 
     it 'sets the pod age field' do
       expect(subject.age).to eq pod_age
+    end
+
+    it 'sets the pod namespace' do
+      expect(subject.namespace).to eq namespace
+    end
+
+    it 'sets the client' do
+      expect(subject.client).to eq client
     end
   end
 

@@ -1,3 +1,4 @@
+require 'open3'
 require_relative 'pod'
 
 module Kubecontrol
@@ -11,13 +12,13 @@ module Kubecontrol
     end
 
     def pods
-      get_pods_result = kubectl_command('get pods')
+      get_pods_result, _stderr, _exit_code = kubectl_command('get pods')
       return [] if get_pods_result.empty?
 
       pods_array = get_pods_result.split
       pods_array.shift 5 # remove output table headers
       pods_array.each_slice(5).map do |pod_data|
-        Pod.new(*pod_data)
+        Pod.new(*pod_data, namespace: namespace, client: self)
       end
     end
 
@@ -25,10 +26,11 @@ module Kubecontrol
       pods.find { |pod| pod.name.match?(name_regex) }
     end
 
-    private
-
     def kubectl_command(command)
-      `kubectl -n #{namespace} #{command}`
+      stdout_data, stderr_data, status = Open3.capture3("kubectl -n #{namespace} #{command}")
+      exit_code = status.exitstatus
+
+      [stdout_data, stderr_data, exit_code]
     end
   end
 end

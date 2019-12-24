@@ -7,12 +7,19 @@ RSpec.describe Kubecontrol::Client do
   let(:pod_status) { 'Running' }
   let(:pod_restarts) { '0' }
   let(:pod_age) { '20d' }
-  let(:get_pods_response) do
+
+  let(:get_pods_std_out) do
     <<~RUBY
       NAME         READY         STATUS         RESTARTS         AGE
       #{pod_name}  #{pod_ready}  #{pod_status}  #{pod_restarts}  #{pod_age}
     RUBY
   end
+  let(:get_pods_std_err) { '' }
+  let(:process_status) do
+    fork { exit }
+    $CHILD_STATUS
+  end
+  let(:get_pods_response) { [get_pods_std_out, get_pods_std_err, process_status] }
 
   describe '#initialize' do
     subject { Kubecontrol::Client }
@@ -47,12 +54,12 @@ RSpec.describe Kubecontrol::Client do
     subject { Kubecontrol::Client.new.pods }
 
     it 'send a kubectl request to the command line' do
-      expect_any_instance_of(Kubecontrol::Client).to receive(:`).with('kubectl -n default get pods').and_return ''
+      expect(Open3).to receive(:capture3).with('kubectl -n default get pods').and_return get_pods_response
       subject
     end
 
     it 'returns an array of Kubecontrol::Pods' do
-      allow_any_instance_of(Kubecontrol::Client).to receive(:`).and_return get_pods_response
+      allow(Open3).to receive(:capture3).and_return get_pods_response
       result = subject
       expect(result).to be_an_instance_of Array
       expect(result.length).to eq 1
@@ -60,8 +67,10 @@ RSpec.describe Kubecontrol::Client do
     end
 
     context 'no pods found' do
+      let(:get_pods_std_out) { '' }
+
       before do
-        allow_any_instance_of(Kubecontrol::Client).to receive(:`).and_return ''
+        allow(Open3).to receive(:capture3).and_return get_pods_response
       end
 
       it { is_expected.to be_empty }
@@ -72,7 +81,7 @@ RSpec.describe Kubecontrol::Client do
     subject { Kubecontrol::Client.new.find_pod_by_name(pod_name) }
 
     before do
-      allow_any_instance_of(Kubecontrol::Client).to receive(:`).and_return get_pods_response
+      allow(Open3).to receive(:capture3).and_return get_pods_response
     end
 
     it { is_expected.to be_an_instance_of Kubecontrol::Pod }
@@ -82,9 +91,7 @@ RSpec.describe Kubecontrol::Client do
     end
 
     context 'pod does not exist' do
-      before do
-        allow_any_instance_of(Kubecontrol::Client).to receive(:`).and_return ''
-      end
+      let(:get_pods_std_out) { '' }
 
       it { is_expected.to be_nil }
     end

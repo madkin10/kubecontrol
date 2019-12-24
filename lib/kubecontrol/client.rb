@@ -18,7 +18,7 @@ module Kubecontrol
       pods_array = get_pods_result.split
       pods_array.shift 5 # remove output table headers
       pods_array.each_slice(5).map do |pod_data|
-        Pod.new(*pod_data, namespace: namespace, client: self)
+        Pod.new(*pod_data, namespace, self)
       end
     end
 

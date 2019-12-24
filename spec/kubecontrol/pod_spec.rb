@@ -10,7 +10,7 @@ RSpec.describe Kubecontrol::Pod do
   let(:client) { Kubecontrol::Client.new }
 
   describe '#initialize' do
-    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age, namespace: namespace, client: client) }
+    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age, namespace, client) }
 
     it 'sets the pod name field' do
       expect(subject.name).to eq pod_name
@@ -42,7 +42,7 @@ RSpec.describe Kubecontrol::Pod do
   end
 
   describe '#running?' do
-    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age).running? }
+    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age, namespace, client).running? }
 
     context 'is running' do
       it { is_expected.to eq true }
@@ -56,7 +56,7 @@ RSpec.describe Kubecontrol::Pod do
   end
 
   describe '#stopped?' do
-    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age).stopped? }
+    subject { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age, namespace, client).stopped? }
 
     context 'is running' do
       it { is_expected.to eq false }
@@ -76,7 +76,7 @@ RSpec.describe Kubecontrol::Pod do
     let(:std_err) { '' }
     let(:status_code) { 0 }
     let(:kubectl_command_response) { [std_out, std_err, status_code] }
-    let(:pod) { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age, namespace: namespace, client: client) }
+    let(:pod) { Kubecontrol::Pod.new(pod_name, pod_ready, pod_status, pod_restarts, pod_age, namespace, client) }
 
     subject { pod.exec(command) }
 

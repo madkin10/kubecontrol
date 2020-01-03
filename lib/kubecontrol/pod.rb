@@ -23,8 +23,7 @@ module Kubecontrol
     end
 
     def exec(command)
-      stdout_data, stderr_data, exit_code = @client.kubectl_command("exec -i #{name} -- sh -c \"#{command.gsub('"', '\"')}\"")
-      [stdout_data, stderr_data, exit_code]
+      @client.kubectl_command("exec -i #{name} -- sh -c \"#{command.gsub('"', '\"')}\"")
     end
   end
 end

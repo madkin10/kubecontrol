@@ -1,4 +1,6 @@
 require 'open3'
+require 'json'
+require 'ostruct'
 require_relative 'pod'
 
 module Kubecontrol
@@ -12,13 +14,12 @@ module Kubecontrol
     end
 
     def pods
-      get_pods_result, _stderr, _exit_code = kubectl_command('get pods')
-      return [] if get_pods_result.empty?
+      get_pods_json, _stderr, _exit_code = kubectl_command('get pods -o json')
+      return [] if get_pods_json.empty?
 
-      pods_array = get_pods_result.split
-      pods_array.shift 5 # remove output table headers
-      pods_array.each_slice(5).map do |pod_data|
-        Pod.new(*pod_data, namespace, self)
+      pods_ostruct = JSON.parse get_pods_json, object_class: OpenStruct
+      pods_ostruct.items.each.map do |pod_data|
+        Pod.new(pod_data, self)
       end
     end
 

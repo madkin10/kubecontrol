@@ -26,3 +26,4 @@
 .idea
 .DS_Store
 coverage
+*.gem

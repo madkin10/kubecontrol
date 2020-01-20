@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/madkin10/kubecontrol'
-  spec.metadata['changelog_uri'] = 'https://github.com/madkin10/kubecontrol/master/CHANGELOG.md'
+  spec.metadata['changelog_uri'] = 'https://github.com/madkin10/kubecontrol/blob/master/CHANGELOG.md'
 
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

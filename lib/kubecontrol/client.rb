@@ -11,12 +11,34 @@ module Kubecontrol
       @namespace = namespace
     end
 
+    def deployments
+      get_deployments_result, _stderr, _exit_code = kubectl_command('get deployments')
+      return [] if get_deployments_result.empty?
+
+      deployments_array = get_deployments_result.split
+      deployments_array.shift(5) # remove output table headers
+      deployments_array.each_slice(5).map do |deployments_data|
+        Deployment.new(*deployments_data, namespace, self)
+      end
+    end
+
+    def statefulsets
+      get_statefulsets_result, _stderr, _exit_code = kubectl_command('get statefulsets')
+      return [] if get_statefulsets_result.empty?
+
+      statefulsets_array = get_statefulsets_result.split
+      statefulsets_array.shift(3) # remove output table headers
+      statefulsets_array.each_slice(3).map do |statefulsets_data|
+        StatefulSet.new(*statefulsets_data, namespace, self)
+      end
+    end
+
     def pods
       get_pods_result, _stderr, _exit_code = kubectl_command('get pods')
       return [] if get_pods_result.empty?
 
       pods_array = get_pods_result.split
-      pods_array.shift 5 # remove output table headers
+      pods_array.shift(5) # remove output table headers
       pods_array.each_slice(5).map do |pod_data|
         Pod.new(*pod_data, namespace, self)
       end

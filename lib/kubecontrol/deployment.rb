@@ -1,5 +1,7 @@
 module Kubecontrol
   class Deployment
+    RESOURCE_NAME = 'deployment'.freeze
+
     attr_reader :name, :ready, :up_to_date, :available, :age, :namespace, :client
 
     def initialize(name, ready, up_to_date, available, age, namespace, client)

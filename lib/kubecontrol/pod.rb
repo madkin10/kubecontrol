@@ -1,5 +1,6 @@
 module Kubecontrol
   class Pod
+    RESOURCE_NAME = 'pods'.freeze
     RUNNING = 'Running'.freeze
 
     attr_reader :name, :ready, :status, :restarts, :age, :namespace, :client

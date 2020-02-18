@@ -1,4 +1,5 @@
 require_relative '../spec_helper'
+require_relative '../../lib/kubecontrol/pod'
 
 RSpec.describe Kubecontrol::Pod do
   let(:pod_name) { 'foo_pod' }

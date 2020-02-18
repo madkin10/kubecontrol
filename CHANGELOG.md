@@ -1,3 +1,6 @@
+# v0.2.5 / 02-18-2020
+- [FEATURE] Kubecontrol::Service
+
 # v0.1.2 / 12-24-2019
 - [FEATURE] Kubecontrol::Pod#exec
 

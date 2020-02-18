@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kubecontrol (0.1.4)
+    kubecontrol (0.2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -40,4 +40,4 @@ DEPENDENCIES
   simplecov (~> 0.17)
 
 BUNDLED WITH
-   2.0.2
+   2.1.4

@@ -1,5 +1,6 @@
 require 'open3'
 require_relative 'pod'
+require_relative 'service'
 
 module Kubecontrol
   class Client
@@ -12,18 +13,15 @@ module Kubecontrol
     end
 
     def pods
-      get_pods_result, _stderr, _exit_code = kubectl_command('get pods')
-      return [] if get_pods_result.empty?
-
-      pods_array = get_pods_result.split
-      pods_array.shift 5 # remove output table headers
-      pods_array.each_slice(5).map do |pod_data|
-        Pod.new(*pod_data, namespace, self)
-      end
+      get_resource(Pod, 5)
     end
 
     def find_pod_by_name(name_regex)
       pods.find { |pod| pod.name.match?(name_regex) }
+    end
+
+    def services
+      get_resource(Service, 6)
     end
 
     def kubectl_command(command)
@@ -31,6 +29,19 @@ module Kubecontrol
       exit_code = status.exitstatus
 
       [stdout_data, stderr_data, exit_code]
+    end
+
+    private
+
+    def get_resource(klass, number_of_columns)
+      get_result, _stderr, _exit_code = kubectl_command("get #{klass::RESOURCE_NAME}")
+      return [] if get_result.empty?
+
+      resources_array = get_result.split
+      resources_array.shift number_of_columns # remove output table headers
+      resources_array.each_slice(number_of_columns).map do |resource_data|
+        klass.new(*resource_data, namespace, self)
+      end
     end
   end
 end

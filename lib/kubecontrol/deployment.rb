@@ -19,8 +19,8 @@ module Kubecontrol
     end
 
     def all_ready?
-      max_containers = @ready.split('/').last
-      @ready == "#{max_containers}/#{max_containers}"
+      max_pods = @ready.split('/').last
+      @ready == "#{max_pods}/#{max_pods}"
     end
 
     def available?

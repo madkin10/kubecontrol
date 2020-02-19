@@ -20,6 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
+##### kubectl Commands
 ```ruby
 require 'kubecontrol'
 
@@ -28,6 +29,15 @@ kubectl_client =  Kubecontrol.client.new
 
 #Exec an arbitrary kubectl command
 std_out, std_err, exit_code = kubectl_client.kubectl_command 'get deployments'
+```
+
+#### Pods
+
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
 
 # all pods for namespace
 pods = kubectl_client.pods
@@ -45,6 +55,27 @@ pod.namespace
 
 #exec commands on a pod
 std_out, std_err, exit_code = pod.exec('ls')
+```
+
+#### Services
+
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
+
+# all services for namespace
+services = kubectl_client.services
+
+# access service information
+service.name
+service.type
+service.cluster_ip
+service.external_ip
+service.ports
+service.age
+service.namespace
 ```
 
 ## Development

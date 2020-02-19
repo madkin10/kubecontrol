@@ -5,7 +5,7 @@ require 'kubecontrol/version'
 Gem::Specification.new do |spec|
   spec.name          = 'kubecontrol'
   spec.version       = Kubecontrol::VERSION
-  spec.authors       = ['Marco Adkins']
+  spec.authors       = ['Marco Adkins', 'Dustin Ashley']
   spec.email         = ['marcoadkins88@gmail.com']
 
   spec.summary       = 'Simple ruby wrapper for `kubectl` commands'

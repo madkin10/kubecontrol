@@ -11,7 +11,6 @@ module Kubecontrol
     attr_accessor :namespace
 
     def initialize(namespace = DEFAULT_NAMESPACE)
-      puts "!!! reeee"
       @namespace = namespace
     end
 

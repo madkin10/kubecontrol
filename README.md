@@ -68,6 +68,9 @@ kubectl_client =  Kubecontrol.client.new
 # all services for namespace
 services = kubectl_client.services
 
+# find service by name regex
+pod = kubectl_client.find_service_by_name /foo-api-.*/
+
 # access service information
 service.name
 service.type
@@ -76,6 +79,50 @@ service.external_ip
 service.ports
 service.age
 service.namespace
+```
+
+#### Deployments
+
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
+
+# all deployments for namespace
+services = kubectl_client.deployments
+
+# find deployment by name regex
+pod = kubectl_client.find_deployment_by_name /foo-api-.*/
+
+# access deployment information
+deployment.name
+deployment.ready
+deployment.up_to_date
+deployment.available
+deployment.age
+deployment.namespace
+```
+
+#### StatefulSets
+
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
+
+# all stateful_sets for namespace
+services = kubectl_client.stateful_sets
+
+# find stateful_set by name regex
+pod = kubectl_client.find_stateful_set_by_name /foo-api-.*/
+
+# access stateful_set information
+stateful_set.name
+stateful_set.ready
+stateful_set.age
+stateful_set.namespace
 ```
 
 ## Development

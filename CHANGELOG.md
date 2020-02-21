@@ -1,3 +1,7 @@
+# YET TO BE RELEASED
+- [FEATURE] Kubecontrol::Deployment
+- [FEATURE] Kubecontrol::StatefulSet
+
 # v0.2.5 / 02-18-2020
 - [FEATURE] Kubecontrol::Service
 

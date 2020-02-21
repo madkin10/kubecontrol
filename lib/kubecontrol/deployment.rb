@@ -1,6 +1,6 @@
 module Kubecontrol
   class Deployment
-    RESOURCE_NAME = 'deployment'.freeze
+    RESOURCE_NAME = 'deployments'.freeze
 
     attr_reader :name, :ready, :up_to_date, :available, :age, :namespace, :client
 

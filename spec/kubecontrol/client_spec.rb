@@ -14,7 +14,7 @@ RSpec.describe Kubecontrol::Client do
   let(:pod_restarts) { '0' }
   let(:get_pods_std_out) do
     <<~RUBY
-      NAME         READY         STATUS         RESTARTS         AGE
+      NAME     READY     STATUS         RESTARTS         AGE
       #{name}  #{ready}  #{pod_status}  #{pod_restarts}  #{age}
     RUBY
   end
@@ -27,12 +27,23 @@ RSpec.describe Kubecontrol::Client do
   let(:service_ports) { '443/TCP' }
   let(:get_services_std_out) do
     <<~RUBY
-      NAME         TYPE         CLUSTER_IP         EXTERNAL-IP         PORT(S)         AGE
+      NAME     TYPE             CLUSTER_IP             EXTERNAL-IP             PORT(S)           AGE
       #{name}  #{service_type}  #{service_cluster_ip}  #{service_external_ip}  #{service_ports}  #{age}
     RUBY
   end
   let(:get_services_std_err) { '' }
   let(:get_services_response) { [get_services_std_out, get_services_std_err, process_status] }
+
+  let(:deployments_up_to_date) { '1' }
+  let(:deployments_available) { '1' }
+  let(:get_deployments_std_out) do
+    <<~RUBY
+      NAME     READY     UP-TO-DATE                 AVAILABLE                 AGE
+      #{name}  #{ready}  #{deployments_up_to_date}  #{deployments_available}  #{age}
+    RUBY
+  end
+  let(:get_deployments_std_err) { '' }
+  let(:get_deployments_response) { [get_deployments_std_out, get_deployments_std_err, process_status] }
 
   describe '#initialize' do
     subject { Kubecontrol::Client }
@@ -152,6 +163,53 @@ RSpec.describe Kubecontrol::Client do
 
     context 'service does not exist' do
       let(:get_services_std_out) { '' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#deployments' do
+    subject { Kubecontrol::Client.new.deployments }
+
+    it 'send a kubectl request to the command line' do
+      expect(Open3).to receive(:capture3).with('kubectl -n default get deployments').and_return get_deployments_response
+      subject
+    end
+
+    it 'returns an array of Kubecontrol::Deployments' do
+      allow(Open3).to receive(:capture3).and_return get_deployments_response
+      result = subject
+      expect(result).to be_an_instance_of Array
+      expect(result.length).to eq 1
+      expect(result.first).to be_an_instance_of Kubecontrol::Deployment
+    end
+
+    context 'no deployments found' do
+      let(:get_deployments_std_out) { '' }
+
+      before do
+        allow(Open3).to receive(:capture3).and_return get_deployments_response
+      end
+
+      it { is_expected.to be_empty }
+    end
+  end
+
+  describe '#find_deployment_by_name' do
+    subject { Kubecontrol::Client.new.find_deployment_by_name(name) }
+
+    before do
+      allow(Open3).to receive(:capture3).and_return get_deployments_response
+    end
+
+    it { is_expected.to be_an_instance_of Kubecontrol::Deployment }
+
+    it 'returns the correct deployment' do
+      expect(subject.name).to eq name
+    end
+
+    context 'deployment does not exist' do
+      let(:get_deployments_std_out) { '' }
 
       it { is_expected.to be_nil }
     end

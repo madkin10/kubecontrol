@@ -22,8 +22,8 @@ module Kubecontrol
       get_resource(Deployment, 5)
     end
 
-    def statefulsets
-      get_resource(StatefulSet, 3)
+    def stateful_sets
+      get_resource(Statefulset, 3)
     end
 
     def services
@@ -38,7 +38,7 @@ module Kubecontrol
       deployments.find { |deployment| deployment.name.match?(name_regex) }
     end
 
-    def find_statefulset_by_name(name_regex)
+    def find_stateful_set_by_name(name_regex)
       statefulsets.find { |statefulset| statefulset.name.match?(name_regex) }
     end
 

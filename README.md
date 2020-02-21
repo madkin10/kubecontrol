@@ -68,6 +68,9 @@ kubectl_client =  Kubecontrol.client.new
 # all services for namespace
 services = kubectl_client.services
 
+# find service by name regex
+service = kubectl_client.find_service_by_name /foo-api-.*/
+
 # access service information
 service.name
 service.type
@@ -76,6 +79,70 @@ service.external_ip
 service.ports
 service.age
 service.namespace
+```
+
+#### Deployments
+
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
+
+# all deployments for namespace
+deployments = kubectl_client.deployments
+
+# find deployment by name regex
+deployment = kubectl_client.find_deployment_by_name /foo-api-.*/
+
+# access deployment information
+deployment.name
+deployment.ready
+deployment.up_to_date
+deployment.available
+deployment.age
+deployment.namespace
+
+# is deployment ready
+deployment.ready?
+deployment.all_ready?
+
+# is deployment available
+deployment.available?
+
+# is deployment up_to_date
+deployment.up_to_date?
+
+# scale deployment
+deployment.scale(5)
+```
+
+#### StatefulSets
+
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
+
+# all stateful_sets for namespace
+stateful_sets = kubectl_client.stateful_sets
+
+# find stateful_set by name regex
+stateful_set = kubectl_client.find_stateful_set_by_name /foo-api-.*/
+
+# access stateful_set information
+stateful_set.name
+stateful_set.ready
+stateful_set.age
+stateful_set.namespace
+
+# is stateful_set ready
+stateful_set.ready?
+stateful_set.all_ready?
+
+# scale stateful_set
+stateful_set.scale(5)
 ```
 
 ## Development
@@ -87,3 +154,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/madkin10/kubecontrol.
+
+## Contributors
+ - [Dustin Ashley](https://github.com/DustinAshley)

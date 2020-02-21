@@ -1,5 +1,7 @@
 require 'open3'
 require_relative 'pod'
+require_relative 'deployment'
+require_relative 'stateful_set'
 require_relative 'service'
 
 module Kubecontrol
@@ -16,12 +18,32 @@ module Kubecontrol
       get_resource(Pod, 5)
     end
 
-    def find_pod_by_name(name_regex)
-      pods.find { |pod| pod.name.match?(name_regex) }
+    def deployments
+      get_resource(Deployment, 5)
+    end
+
+    def stateful_sets
+      get_resource(StatefulSet, 3)
     end
 
     def services
       get_resource(Service, 6)
+    end
+
+    def find_service_by_name(name_regex)
+      services.find { |service| service.name.match?(name_regex) }
+    end
+
+    def find_pod_by_name(name_regex)
+      pods.find { |pod| pod.name.match?(name_regex) }
+    end
+
+    def find_deployment_by_name(name_regex)
+      deployments.find { |deployment| deployment.name.match?(name_regex) }
+    end
+
+    def find_stateful_set_by_name(name_regex)
+      stateful_sets.find { |stateful_set| stateful_set.name.match?(name_regex) }
     end
 
     def kubectl_command(command)

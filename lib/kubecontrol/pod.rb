@@ -23,6 +23,11 @@ module Kubecontrol
       @status == RUNNING
     end
 
+    def ready?
+      pod_containers = @ready.split('/').last
+      @ready == "#{pod_containers}/#{pod_containers}"
+    end
+
     def exec(command)
       @client.kubectl_command("exec -i #{name} -- sh -c \"#{command.gsub('"', '\"')}\"")
     end

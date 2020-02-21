@@ -4,7 +4,7 @@ module Kubecontrol
 
     attr_reader :name, :ready, :age, :namespace, :client
 
-    def initialize(name, ready, up_to_date, available, age, namespace, client)
+    def initialize(name, ready, age, namespace, client)
       @name = name
       @ready = ready
       @age = age

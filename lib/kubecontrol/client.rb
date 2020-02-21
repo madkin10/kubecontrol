@@ -1,7 +1,7 @@
 require 'open3'
 require_relative 'pod'
 require_relative 'deployment'
-require_relative 'statefulset'
+require_relative 'stateful_set'
 require_relative 'service'
 
 module Kubecontrol

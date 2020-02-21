@@ -23,7 +23,7 @@ module Kubecontrol
     end
 
     def stateful_sets
-      get_resource(Statefulset, 3)
+      get_resource(StatefulSet, 3)
     end
 
     def services
@@ -43,7 +43,7 @@ module Kubecontrol
     end
 
     def find_stateful_set_by_name(name_regex)
-      statefulsets.find { |statefulset| statefulset.name.match?(name_regex) }
+      stateful_sets.find { |statefulset| statefulset.name.match?(name_regex) }
     end
 
     def kubectl_command(command)

@@ -45,6 +45,15 @@ RSpec.describe Kubecontrol::Client do
   let(:get_deployments_std_err) { '' }
   let(:get_deployments_response) { [get_deployments_std_out, get_deployments_std_err, process_status] }
 
+  let(:get_stateful_sets_std_out) do
+    <<~RUBY
+      NAME     READY     AGE
+      #{name}  #{ready}  #{age}
+    RUBY
+  end
+  let(:get_stateful_sets_std_err) { '' }
+  let(:get_stateful_sets_response) { [get_stateful_sets_std_out, get_stateful_sets_std_err, process_status] }
+
   describe '#initialize' do
     subject { Kubecontrol::Client }
 
@@ -210,6 +219,53 @@ RSpec.describe Kubecontrol::Client do
 
     context 'deployment does not exist' do
       let(:get_deployments_std_out) { '' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#stateful_sets' do
+    subject { Kubecontrol::Client.new.stateful_sets }
+
+    it 'send a kubectl request to the command line' do
+      expect(Open3).to receive(:capture3).with('kubectl -n default get statefulsets').and_return get_stateful_sets_response
+      subject
+    end
+
+    it 'returns an array of Kubecontrol::StatefulSet' do
+      allow(Open3).to receive(:capture3).and_return get_stateful_sets_response
+      result = subject
+      expect(result).to be_an_instance_of Array
+      expect(result.length).to eq 1
+      expect(result.first).to be_an_instance_of Kubecontrol::StatefulSet
+    end
+
+    context 'no stateful_sets found' do
+      let(:get_stateful_sets_std_out) { '' }
+
+      before do
+        allow(Open3).to receive(:capture3).and_return get_stateful_sets_response
+      end
+
+      it { is_expected.to be_empty }
+    end
+  end
+
+  describe '#find_stateful_set_by_name' do
+    subject { Kubecontrol::Client.new.find_stateful_set_by_name(name) }
+
+    before do
+      allow(Open3).to receive(:capture3).and_return get_stateful_sets_response
+    end
+
+    it { is_expected.to be_an_instance_of Kubecontrol::StatefulSet }
+
+    it 'returns the correct stateful_sets' do
+      expect(subject.name).to eq name
+    end
+
+    context 'stateful_set does not exist' do
+      let(:get_stateful_sets_std_out) { '' }
 
       it { is_expected.to be_nil }
     end

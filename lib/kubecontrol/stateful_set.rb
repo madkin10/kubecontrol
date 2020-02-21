@@ -1,6 +1,6 @@
 module Kubecontrol
   class StatefulSet
-    RESOURCE_NAME = 'statefulset'.freeze
+    RESOURCE_NAME = 'statefulsets'.freeze
 
     attr_reader :name, :ready, :age, :namespace, :client
 

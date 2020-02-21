@@ -43,7 +43,7 @@ module Kubecontrol
     end
 
     def find_stateful_set_by_name(name_regex)
-      stateful_sets.find { |statefulset| statefulset.name.match?(name_regex) }
+      stateful_sets.find { |stateful_set| stateful_set.name.match?(name_regex) }
     end
 
     def kubectl_command(command)

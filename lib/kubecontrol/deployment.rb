@@ -24,11 +24,11 @@ module Kubecontrol
     end
 
     def available?
-      @available == '1'
+      @available.to_i > 1
     end
 
     def up_to_date?
-      @up_to_date == '1'
+      @up_to_date.to_i > 1
     end
 
     def scale(count)

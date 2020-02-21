@@ -90,10 +90,10 @@ require 'kubecontrol'
 kubectl_client =  Kubecontrol.client.new
 
 # all deployments for namespace
-services = kubectl_client.deployments
+deployments = kubectl_client.deployments
 
 # find deployment by name regex
-pod = kubectl_client.find_deployment_by_name /foo-api-.*/
+deployment = kubectl_client.find_deployment_by_name /foo-api-.*/
 
 # access deployment information
 deployment.name
@@ -113,10 +113,10 @@ require 'kubecontrol'
 kubectl_client =  Kubecontrol.client.new
 
 # all stateful_sets for namespace
-services = kubectl_client.stateful_sets
+stateful_sets = kubectl_client.stateful_sets
 
 # find stateful_set by name regex
-pod = kubectl_client.find_stateful_set_by_name /foo-api-.*/
+stateful_set = kubectl_client.find_stateful_set_by_name /foo-api-.*/
 
 # access stateful_set information
 stateful_set.name

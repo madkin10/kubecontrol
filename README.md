@@ -69,7 +69,7 @@ kubectl_client =  Kubecontrol.client.new
 services = kubectl_client.services
 
 # find service by name regex
-pod = kubectl_client.find_service_by_name /foo-api-.*/
+service = kubectl_client.find_service_by_name /foo-api-.*/
 
 # access service information
 service.name

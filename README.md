@@ -102,6 +102,19 @@ deployment.up_to_date
 deployment.available
 deployment.age
 deployment.namespace
+
+# is deployment ready
+deployment.ready?
+deployment.all_ready?
+
+# is deployment available
+deployment.available?
+
+# is deployment up_to_date
+deployment.up_to_date?
+
+# scale deployment
+deployment.scale(5)
 ```
 
 #### StatefulSets
@@ -123,6 +136,13 @@ stateful_set.name
 stateful_set.ready
 stateful_set.age
 stateful_set.namespace
+
+# is stateful_set ready
+stateful_set.ready?
+stateful_set.all_ready?
+
+# scale stateful_set
+stateful_set.scale(5)
 ```
 
 ## Development

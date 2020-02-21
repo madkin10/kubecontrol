@@ -30,6 +30,10 @@ module Kubecontrol
       get_resource(Service, 6)
     end
 
+    def find_service_by_name(name_regex)
+      services.find { |service| service.name.match?(name_regex) }
+    end
+
     def find_pod_by_name(name_regex)
       pods.find { |pod| pod.name.match?(name_regex) }
     end

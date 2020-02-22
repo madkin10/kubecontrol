@@ -14,6 +14,16 @@ module Kubecontrol
       @namespace = namespace
     end
 
+    def apply(file_path: nil, kustomization_dir: nil)
+      raise ArgumentError.new('Must pass a file_path or kustomization_dir keyword argument') if (file_path.nil? && kustomization_dir.nil?) || (file_path && kustomization_dir)
+
+      if file_path
+        kubectl_command("apply -f #{file_path}")
+      else
+        kubectl_command("apply -k #{kustomization_dir}")
+      end
+    end
+
     def pods
       get_resource(Pod, 5)
     end

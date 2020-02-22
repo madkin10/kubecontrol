@@ -83,6 +83,68 @@ RSpec.describe Kubecontrol::Client do
     end
   end
 
+  describe '#apply' do
+    let(:std_out) { 'deployment.extensions/deployment configured' }
+    let(:std_err) { '' }
+    let(:apply_response) { ['deployment.extensions/deployment configured', '', process_status] }
+
+    before do
+      allow(Open3).to receive(:capture3).and_return apply_response
+    end
+
+    context 'missing file path or kustomization dir keyword arguments' do
+      subject { Kubecontrol::Client.new.apply }
+
+      it 'raises an ArgumentError' do
+        expect{subject}.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'with both file path and kustomization dir keyword arguments' do
+      subject { Kubecontrol::Client.new.apply(file_path: 'foo', kustomization_dir: 'bar') }
+
+      it 'raises an ArgumentError' do
+        expect{subject}.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'with a file path' do
+      let(:file_path) { 'foo/bar/deployment.yaml' }
+
+      subject { Kubecontrol::Client.new.apply(file_path: file_path) }
+
+      it 'send a kubectl request to the command line' do
+        expect(Open3).to receive(:capture3).with("kubectl -n default apply -f #{file_path}").and_return apply_response
+        subject
+      end
+
+      it 'returns an array of std_out, std_err, and status code' do
+        std_out_response, std_err_response, status_code_response  = subject
+        expect(std_out_response).to eq std_out
+        expect(std_err_response).to eq std_err
+        expect(status_code_response).to eq process_status
+      end
+    end
+
+    context 'with a kustomization directory' do
+      let(:kustomization_dir) { 'foo/bar/kustomization' }
+
+      subject { Kubecontrol::Client.new.apply(kustomization_dir: kustomization_dir) }
+
+      it 'send a kubectl request to the command line' do
+        expect(Open3).to receive(:capture3).with("kubectl -n default apply -k #{kustomization_dir}").and_return apply_response
+        subject
+      end
+
+      it 'returns an array of std_out, std_err, and status code' do
+        std_out_response, std_err_response, status_code_response  = subject
+        expect(std_out_response).to eq std_out
+        expect(std_err_response).to eq std_err
+        expect(status_code_response).to eq process_status
+      end
+    end
+  end
+
   describe '#pods' do
     subject { Kubecontrol::Client.new.pods }
 

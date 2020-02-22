@@ -83,6 +83,28 @@ RSpec.describe Kubecontrol::Client do
     end
   end
 
+  describe '#kubectl_command' do
+    let(:command) { 'get pods' }
+
+    subject { Kubecontrol::Client.new.kubectl_command(command) }
+
+    before do
+      allow(Open3).to receive(:capture3).and_return get_pods_response
+    end
+
+    it 'sends a kubectl request to the command line' do
+      expect(Open3).to receive(:capture3).with("kubectl -n default #{command}").and_return get_pods_response
+      subject
+    end
+
+    it 'returns an array of std_out, std_err, and status code' do
+      std_out_response, std_err_response, status_code_response  = subject
+      expect(std_out_response).to eq get_pods_std_out
+      expect(std_err_response).to eq get_pods_std_err
+      expect(status_code_response).to eq process_status
+    end
+  end
+
   describe '#apply' do
     let(:std_out) { 'deployment.extensions/deployment configured' }
     let(:std_err) { '' }

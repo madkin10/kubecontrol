@@ -27,6 +27,10 @@ require 'kubecontrol'
 # create new client
 kubectl_client =  Kubecontrol.client.new
 
+#Exec an kubectl apply command
+std_out, std_err, exit_code = kubectl_client.apply(file_path: 'path/to/deployment.yaml')
+std_out, std_err, exit_code = kubectl_client.apply(kustomization_dir: 'path/to/kustomization_dir')
+
 #Exec an arbitrary kubectl command
 std_out, std_err, exit_code = kubectl_client.kubectl_command 'get deployments'
 ```

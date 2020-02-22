@@ -1,3 +1,6 @@
+# UNRELEASED
+- [FEATURE] Kubecontrol::Client#apply
+
 # v0.3.5 / 02-21-2020
 - [FEATURE] Kubecontrol::Deployment
 - [FEATURE] Kubecontrol::StatefulSet

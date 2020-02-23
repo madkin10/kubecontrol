@@ -3,6 +3,7 @@ require_relative 'pod'
 require_relative 'deployment'
 require_relative 'stateful_set'
 require_relative 'service'
+require_relative 'secret'
 
 module Kubecontrol
   class Client
@@ -38,6 +39,14 @@ module Kubecontrol
 
     def services
       get_resource(Service, 6)
+    end
+
+    def secrets
+      get_resource(Secret, 4)
+    end
+
+    def find_secret_by_name(name_regex)
+      secrets.find { |secret| secret.name.match?(name_regex) }
     end
 
     def find_service_by_name(name_regex)

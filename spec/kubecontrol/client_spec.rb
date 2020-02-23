@@ -54,6 +54,17 @@ RSpec.describe Kubecontrol::Client do
   let(:get_stateful_sets_std_err) { '' }
   let(:get_stateful_sets_response) { [get_stateful_sets_std_out, get_stateful_sets_std_err, process_status] }
 
+  let(:secret_type) { 'Opaque' }
+  let(:secret_data) { '5' }
+  let(:get_secrets_std_out) do
+    <<~RUBY
+      NAME     TYPE            DATA            AGE
+      #{name}  #{secret_type}  #{secret_data}  #{age}
+    RUBY
+  end
+  let(:get_secrets_std_err) { '' }
+  let(:get_secrets_response) { [get_secrets_std_out, get_secrets_std_err, process_status] }
+
   describe '#initialize' do
     subject { Kubecontrol::Client }
 
@@ -350,6 +361,53 @@ RSpec.describe Kubecontrol::Client do
 
     context 'stateful_set does not exist' do
       let(:get_stateful_sets_std_out) { '' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#secrets' do
+    subject { Kubecontrol::Client.new.secrets }
+
+    it 'send a kubectl request to the command line' do
+      expect(Open3).to receive(:capture3).with('kubectl -n default get secrets').and_return get_secrets_response
+      subject
+    end
+
+    it 'returns an array of Kubecontrol::Secret' do
+      allow(Open3).to receive(:capture3).and_return get_secrets_response
+      result = subject
+      expect(result).to be_an_instance_of Array
+      expect(result.length).to eq 1
+      expect(result.first).to be_an_instance_of Kubecontrol::Secret
+    end
+
+    context 'no secrets found' do
+      let(:get_secrets_std_out) { '' }
+
+      before do
+        allow(Open3).to receive(:capture3).and_return get_secrets_response
+      end
+
+      it { is_expected.to be_empty }
+    end
+  end
+
+  describe '#find_secret_by_name' do
+    subject { Kubecontrol::Client.new.find_secret_by_name(name) }
+
+    before do
+      allow(Open3).to receive(:capture3).and_return get_secrets_response
+    end
+
+    it { is_expected.to be_an_instance_of Kubecontrol::Secret }
+
+    it 'returns the correct secrets' do
+      expect(subject.name).to eq name
+    end
+
+    context 'secret does not exist' do
+      let(:get_secrets_std_out) { '' }
 
       it { is_expected.to be_nil }
     end

@@ -149,6 +149,28 @@ stateful_set.all_ready?
 stateful_set.scale(5)
 ```
 
+#### Secrets
+
+```ruby
+require 'kubecontrol'
+
+# create new client
+kubectl_client =  Kubecontrol.client.new
+
+# all secrets for namespace
+secrets = kubectl_client.secrets
+
+# find secret by name regex
+secret = kubectl_client.find_secret_by_name /foo-api-.*/
+
+# access secret information
+secret.name
+secret.type
+secret.data
+secret.age
+secret.namespace
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

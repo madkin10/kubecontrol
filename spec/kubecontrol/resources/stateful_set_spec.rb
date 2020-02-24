@@ -1,13 +1,13 @@
-require_relative '../spec_helper'
-require_relative '../../lib/kubecontrol/stateful_set'
+require_relative '../../spec_helper'
+require_relative '../../../lib/kubecontrol/resources/stateful_set'
 
-RSpec.describe Kubecontrol::StatefulSet do
+RSpec.describe Kubecontrol::Resources::StatefulSet do
   let(:stateful_set_name) { 'foo_stateful_set' }
   let(:stateful_set_age) { '2d' }
   let(:stateful_set_ready) { '1/1' }
   let(:namespace) { 'default' }
   let(:client) { Kubecontrol::Client.new }
-  let(:stateful_set) { Kubecontrol::StatefulSet.new(stateful_set_name, stateful_set_ready, stateful_set_age, namespace, client) }
+  let(:stateful_set) { Kubecontrol::Resources::StatefulSet.new(stateful_set_name, stateful_set_ready, stateful_set_age, namespace, client) }
 
   describe '#initialize' do
     subject { stateful_set }

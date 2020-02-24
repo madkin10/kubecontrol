@@ -1,14 +1,14 @@
-require_relative '../spec_helper'
-require_relative '../../lib/kubecontrol/secret'
+require_relative '../../spec_helper'
+require_relative '../../../lib/kubecontrol/resources/secret'
 
-RSpec.describe Kubecontrol::Secret do
+RSpec.describe Kubecontrol::Resources::Secret do
   let(:secret_name) { 'foo_secret' }
   let(:secret_type) { 'Opaque' }
   let(:secret_data) { '5' }
   let(:secret_age) { '2d' }
   let(:namespace) { 'default' }
   let(:client) { Kubecontrol::Client.new }
-  let(:secret) { Kubecontrol::Secret.new(secret_name, secret_type, secret_data, secret_age, namespace, client) }
+  let(:secret) { Kubecontrol::Resources::Secret.new(secret_name, secret_type, secret_data, secret_age, namespace, client) }
 
   describe '#initialize' do
     subject { secret }

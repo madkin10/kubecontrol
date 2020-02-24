@@ -191,7 +191,7 @@ RSpec.describe Kubecontrol::Client do
       result = subject
       expect(result).to be_an_instance_of Array
       expect(result.length).to eq 1
-      expect(result.first).to be_an_instance_of Kubecontrol::Pod
+      expect(result.first).to be_an_instance_of Kubecontrol::Resources::Pod
     end
 
     context 'no pods found' do
@@ -212,7 +212,7 @@ RSpec.describe Kubecontrol::Client do
       allow(Open3).to receive(:capture3).and_return get_pods_response
     end
 
-    it { is_expected.to be_an_instance_of Kubecontrol::Pod }
+    it { is_expected.to be_an_instance_of Kubecontrol::Resources::Pod }
 
     it 'returns the correct pod' do
       expect(subject.name).to eq name
@@ -238,7 +238,7 @@ RSpec.describe Kubecontrol::Client do
       result = subject
       expect(result).to be_an_instance_of Array
       expect(result.length).to eq 1
-      expect(result.first).to be_an_instance_of Kubecontrol::Service
+      expect(result.first).to be_an_instance_of Kubecontrol::Resources::Service
     end
 
     context 'no services found' do
@@ -259,7 +259,7 @@ RSpec.describe Kubecontrol::Client do
       allow(Open3).to receive(:capture3).and_return get_services_response
     end
 
-    it { is_expected.to be_an_instance_of Kubecontrol::Service }
+    it { is_expected.to be_an_instance_of Kubecontrol::Resources::Service }
 
     it 'returns the correct service' do
       expect(subject.name).to eq name
@@ -285,7 +285,7 @@ RSpec.describe Kubecontrol::Client do
       result = subject
       expect(result).to be_an_instance_of Array
       expect(result.length).to eq 1
-      expect(result.first).to be_an_instance_of Kubecontrol::Deployment
+      expect(result.first).to be_an_instance_of Kubecontrol::Resources::Deployment
     end
 
     context 'no deployments found' do
@@ -306,7 +306,7 @@ RSpec.describe Kubecontrol::Client do
       allow(Open3).to receive(:capture3).and_return get_deployments_response
     end
 
-    it { is_expected.to be_an_instance_of Kubecontrol::Deployment }
+    it { is_expected.to be_an_instance_of Kubecontrol::Resources::Deployment }
 
     it 'returns the correct deployment' do
       expect(subject.name).to eq name
@@ -332,7 +332,7 @@ RSpec.describe Kubecontrol::Client do
       result = subject
       expect(result).to be_an_instance_of Array
       expect(result.length).to eq 1
-      expect(result.first).to be_an_instance_of Kubecontrol::StatefulSet
+      expect(result.first).to be_an_instance_of Kubecontrol::Resources::StatefulSet
     end
 
     context 'no stateful_sets found' do
@@ -353,7 +353,7 @@ RSpec.describe Kubecontrol::Client do
       allow(Open3).to receive(:capture3).and_return get_stateful_sets_response
     end
 
-    it { is_expected.to be_an_instance_of Kubecontrol::StatefulSet }
+    it { is_expected.to be_an_instance_of Kubecontrol::Resources::StatefulSet }
 
     it 'returns the correct stateful_sets' do
       expect(subject.name).to eq name
@@ -379,7 +379,7 @@ RSpec.describe Kubecontrol::Client do
       result = subject
       expect(result).to be_an_instance_of Array
       expect(result.length).to eq 1
-      expect(result.first).to be_an_instance_of Kubecontrol::Secret
+      expect(result.first).to be_an_instance_of Kubecontrol::Resources::Secret
     end
 
     context 'no secrets found' do
@@ -400,7 +400,7 @@ RSpec.describe Kubecontrol::Client do
       allow(Open3).to receive(:capture3).and_return get_secrets_response
     end
 
-    it { is_expected.to be_an_instance_of Kubecontrol::Secret }
+    it { is_expected.to be_an_instance_of Kubecontrol::Resources::Secret }
 
     it 'returns the correct secrets' do
       expect(subject.name).to eq name

@@ -1,4 +1,5 @@
 # UNRELEASED
+- [ENHANCEMENT] Kubecontrol::Resources - Move all existing resources(Pod, Deployment, Service, Secret, Stateful Set) into a 'Resources' namespace.
 - [FEATURE] Kubecontrol::Secret
 - [FEATURE] Kubecontrol::Client#apply
 

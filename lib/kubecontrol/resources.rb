@@ -1,0 +1,5 @@
+require_relative 'resources/deployment'
+require_relative 'resources/pod'
+require_relative 'resources/secret'
+require_relative 'resources/service'
+require_relative 'resources/stateful_set'

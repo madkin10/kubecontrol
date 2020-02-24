@@ -1,7 +1,7 @@
-require_relative '../spec_helper'
-require_relative '../../lib/kubecontrol/service'
+require_relative '../../spec_helper'
+require_relative '../../../lib/kubecontrol/resources/service'
 
-RSpec.describe Kubecontrol::Service do
+RSpec.describe Kubecontrol::Resources::Service do
   let(:service_name) { 'foo_service' }
   let(:service_age) { '2d' }
   let(:service_type) { 'ClusterIP' }
@@ -12,7 +12,7 @@ RSpec.describe Kubecontrol::Service do
   let(:client) { Kubecontrol::Client.new }
 
   describe '#initialize' do
-    subject { Kubecontrol::Service.new(service_name, service_type, service_cluster_ip, service_external_ip, service_ports, service_age, namespace, client) }
+    subject { Kubecontrol::Resources::Service.new(service_name, service_type, service_cluster_ip, service_external_ip, service_ports, service_age, namespace, client) }
 
     it 'sets the service name field' do
       expect(subject.name).to eq service_name

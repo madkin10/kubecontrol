@@ -1,7 +1,7 @@
-require_relative '../spec_helper'
-require_relative '../../lib/kubecontrol/deployment'
+require_relative '../../spec_helper'
+require_relative '../../../lib/kubecontrol/resources/deployment'
 
-RSpec.describe Kubecontrol::Deployment do
+RSpec.describe Kubecontrol::Resources::Deployment do
   let(:deployment_name) { 'foo_deployment' }
   let(:deployment_age) { '2d' }
   let(:deployment_ready) { '1/1' }
@@ -9,7 +9,7 @@ RSpec.describe Kubecontrol::Deployment do
   let(:deployment_available) { '1' }
   let(:namespace) { 'default' }
   let(:client) { Kubecontrol::Client.new }
-  let(:deployment) { Kubecontrol::Deployment.new(deployment_name, deployment_ready, deployment_up_to_date, deployment_available, deployment_age, namespace, client) }
+  let(:deployment) { Kubecontrol::Resources::Deployment.new(deployment_name, deployment_ready, deployment_up_to_date, deployment_available, deployment_age, namespace, client) }
 
   describe '#initialize' do
     subject { deployment }

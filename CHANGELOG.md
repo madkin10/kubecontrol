@@ -1,4 +1,4 @@
-# UNRELEASED
+# v0.5.0 / 02-26-2020
 - [FEATURE] Kubecontrol::Secret#data_values
 
 # v0.4.5 / 02-24-2020

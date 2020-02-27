@@ -169,6 +169,11 @@ secret.type
 secret.data
 secret.age
 secret.namespace
+
+# access secret data values
+secret.data_values
+secret.data_values['user']
+secret.data_values['password']
 ```
 
 ## Development

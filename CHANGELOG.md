@@ -1,3 +1,6 @@
+# UNRELEASED
+- [FEATURE] Kubecontrol::Secret#data_values
+
 # v0.4.5 / 02-24-2020
 - [ENHANCEMENT] Kubecontrol::Resources - Move all existing resources(Pod, Deployment, Service, Secret, Stateful Set) into a 'Resources' namespace.
 - [FEATURE] Kubecontrol::Secret

@@ -184,7 +184,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/madkin10/kubecontrol.
+Bug reports and pull requests are welcome on GitHub at https://github.com/marcoadkins/kubecontrol.
 
 ## Contributors
  - [Dustin Ashley](https://github.com/DustinAshley)
